@@ -1,6 +1,5 @@
 package org.bahmni.notifications.feed.event;
 
-import jdk.nashorn.internal.parser.JSONParser;
 import org.apache.log4j.Logger;
 import org.bahmni.notifications.feed.common.AtomFeedProperties;
 import org.bahmni.notifications.feed.contract.openmrs.OpenMRSPatient;
@@ -13,10 +12,8 @@ import org.hibernate.Session;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.json.JSONObject;
 
-
 import java.io.IOException;
 import java.net.URI;
-import java.util.Date;
 
 public class PatientFeedEventWorker extends BahmniEventWorker {
 

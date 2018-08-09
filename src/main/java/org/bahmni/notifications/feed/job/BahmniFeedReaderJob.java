@@ -23,7 +23,7 @@ import java.util.Map;
 
 public abstract class BahmniFeedReaderJob implements Job {
 
-    protected static Map<Class, FeedClient> atomFeedClients = new HashMap<>();
+    static Map<Class, FeedClient> atomFeedClients = new HashMap<>();
     private final Logger logger = Logger.getLogger(this.getClass());
 
     protected abstract EventWorker createWorker(HttpClient authenticatedWebClient, String urlPrefix);
@@ -50,14 +50,23 @@ public abstract class BahmniFeedReaderJob implements Job {
         }
     }
 
-    protected void processEvents() {
+    private void processEvents() {
         if (atomFeedClients.get(this.getClass()) == null)
             initializeAtomFeedClient();
         FeedClient atomFeedClient = atomFeedClients.get(this.getClass());
-        atomFeedClient.processEvents();
+        while(true) {
+            atomFeedClient.processEvents();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+
     }
 
-    protected void initializeAtomFeedClient() {
+    void initializeAtomFeedClient() {
         FeedClient atomFeedClient = createAtomFeedClient(AtomFeedProperties.getInstance(), new AtomFeedClientFactory());
 
         if (atomFeedClient != null) {
@@ -86,7 +95,6 @@ public abstract class BahmniFeedReaderJob implements Job {
         }
     }
 
-    //  TODO : should not depend on auth url to determine the prefix
     private static String getURLPrefix(String authenticationURI) {
         URL openMRSAuthURL;
         try {

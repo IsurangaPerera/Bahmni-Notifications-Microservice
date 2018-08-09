@@ -106,6 +106,7 @@ public class HibernateUtil {
             LogEvent.logError("HibernateUtil", "getSession()", ex.toString());
             throw new RuntimeException("Error in getSession()", ex);
         }
+        s.getSession().disconnect();
         return s;
     }
 

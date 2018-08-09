@@ -6,22 +6,22 @@
 <hibernate-configuration>
 
     <session-factory>
-        <property name="hibernate.connection.driver_class">org.h2.Driver</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">admin</property>
-        <property name="hibernate.connection.url">jdbc:h2:~/atomfeed;DATABASE_TO_UPPER=false</property>
-        <property name="hibernate.c3p0.min_size">2</property>
-        <property name="hibernate.c3p0.max_size">10</property>
+        <property name="hibernate.connection.password">root</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/atomfeed</property>
+        <property name="hibernate.c3p0.min_size">1</property>
         <property name="hibernate.c3p0.timeout">30</property>
-        <property name="hibernate.c3p0.max_statements">100</property>
-        <property name="hibernate.c3p0.idle_test_period">300</property>
+        <property name="hibernate.c3p0.max_statements">1000</property>
+        <property name="hibernate.c3p0.idle_test_period">3</property>
         <property name="hibernate.default_schema">root</property>
-        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.show_sql">false</property>
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.jdbc.batch_size">50</property>
         <property name="hibernate.jdbc.batch_versioned_data">true</property>
-        <property name="hibernate.query.factory_class">
+        <property name="connection.pool_size">250000000</property>
+        <property name="hibernate.c3p0.query.factory_class">
             org.hibernate.hql.spi.QueryTranslatorFactory
         </property>
         <property name="hibernate.cache.provider_class">

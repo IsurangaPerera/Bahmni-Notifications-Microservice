@@ -49,26 +49,29 @@ public class AtomFeedHibernateTransactionManager implements AFTransactionManager
 
     @Override
     public Connection getConnection() throws SQLException {
-        //TODO: ensure that only connection associated with current thread current transaction is given
-        return getCurrentSession().getSessionFactory(). getSessionFactoryOptions().getServiceRegistry()
+        Connection c = getCurrentSession().getSessionFactory(). getSessionFactoryOptions().getServiceRegistry()
                 . getService(ConnectionProvider.class).getConnection();
+        System.out.println(c.isClosed());
+        c.setAutoCommit(Boolean.TRUE);
+
+        return c;
     }
 
-    public void startTransaction() {
+    private void startTransaction() {
         Transaction transaction = getCurrentSession().getTransaction();
         if (transaction == null || !transaction.isActive()) {
             getCurrentSession().beginTransaction();
         }
     }
 
-    public void commit() {
+    private void commit() {
         Transaction transaction = getCurrentSession().getTransaction();
         if (!transaction.getStatus().isOneOf(TransactionStatus.COMMITTED)) {
             transaction.commit();
         }
     }
 
-    public void rollback() {
+    private void rollback() {
         Transaction transaction = getCurrentSession().getTransaction();
         if (!transaction.getStatus().isOneOf(TransactionStatus.ROLLED_BACK)) {
             transaction.rollback();
